@@ -361,18 +361,17 @@ height:50vh;
     <article class="index-post">
         <a class="abstract-title" href = "/2019/07/08/xinetd安装配置/" >
             
-                <span>[Untitled Post]</span>
+                <span>1.xinetd</span>
         </a>
         <div class="abstract-content">
-            
-title: 1.xinetdxinetd是一个守护进程（系统后台程序，周期性的执行某些任务或者某个时事件的发生，不随用户注销而退出）
+            xinetd是一个守护进程（系统后台程序，周期性的执行某些任务或者某个时事件的发生，不随用户注销而退出）
 创建守护进程的方法：不能是组长进程—-fork子进程，父进程结束，子进程setsid()创建会话，脱离控制终端。修改权限、文件描述符，重定向dup2().
 配置第一步三个统一：
 123/etc/xinetd.d/配置文件名该配置文件中的像结构体的名字唤醒的可执行文件名
 
 三者文件名字必须一致
 写配置文件在对齐时只能用Tab键，千万不能使用空格配置实例如下：
-1234567891011service st_server&#123;	socket_type...
+1234567891011service st_server&#123;	socket_type = stream	protoc...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -660,6 +659,20 @@ Mo...
     
     
     
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2019/07/08/xinetd安装配置/" >1.xinetd</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
     
@@ -667,29 +680,6 @@ Mo...
         <li class="archive-post-item">
             <span class="archive-post-date">07/07</span><a class="archive-post-title" href= "/2019/07/07/usegit/" >对git的理解</a>
         </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> Invalid date </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2019/07/08/xinetd安装配置/" >[Untitled Post]</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2019 </div>
-    <ul class="year-list">
     
     
         <li class="archive-post-item">
