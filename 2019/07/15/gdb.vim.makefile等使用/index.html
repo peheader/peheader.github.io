@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="pediy">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="pediy">
+    
+    <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content>
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>pediy&#39;s Studio</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >pediy&#39;s Studio.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name"></a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>pediy's Studio.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            [Untitled Post]
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">2.4k</span>阅读时长: <span class="post-count reading-time">11 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/07/15</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <hr>
+<h2 id="title-makefile、gdb、vim等使用"><a href="#title-makefile、gdb、vim等使用" class="headerlink" title="title:makefile、gdb、vim等使用"></a>title:makefile、gdb、vim等使用</h2><p>#makefile<br>1.命名规则  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">makefile</span><br><span class="line">Makefile</span><br></pre></td></tr></table></figure>
+
+<p>2.规则  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">目标:(空格)依赖</span><br><span class="line">(tab缩进)规则</span><br><span class="line"></span><br><span class="line">***注意：括号内容不要省略***</span><br></pre></td></tr></table></figure>
+
+<p>3.编写  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">自变量的定义(小写)：  </span><br><span class="line">obj=a.o b.o c.o</span><br><span class="line">obj=10</span><br><span class="line">变量取值：</span><br><span class="line">aa=$(obj)</span><br><span class="line">***注意和aa=obj区别***</span><br><span class="line"></span><br><span class="line">makefile自带变量(大写)：  </span><br><span class="line">CPPFLAGS（预处理参数，添加头文件）</span><br><span class="line">CC(gcc)</span><br><span class="line"></span><br><span class="line">自动变量：</span><br><span class="line">$@:规则中的目标</span><br><span class="line">$&lt;:规则中第一个(当前规则)依赖</span><br><span class="line">$^:规则中（当前规则）所有依赖</span><br><span class="line">只能在规则部分（见makefile第2点）使用</span><br></pre></td></tr></table></figure>
+
+<p>样例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">obj = main.o   add.o   sub.o   mul.o     #定义obj</span><br><span class="line">target = app</span><br><span class="line">$(target):$(obj)</span><br><span class="line">    gcc  $(obj) -o  $(target)</span><br><span class="line">%.o: %.c        #定义规则模板,%是占位符</span><br><span class="line">    gcc  -c  $&lt;  -o  $@</span><br></pre></td></tr></table></figure>
+
+<p>makefile函数(所有函数都有返回值)：<br>(1)查找指定目录下指定类型文件<br>src = $(wildcard ./* .c)<br>wildcard函数第一个参数代表扫描路径，第二个文件类型，参数用空格分开<br>(2)匹配替换<br>obj = $(patsubst %.c,%.o, $(src))<br>第一代表原后缀，第二表示目标后缀，$(src)第一部获得的值<br>将.c替换成.o<br>如上可以被替换为：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">src = $(wildcard ./* .c)    #得到当前目录下的.c结尾的文件名</span><br><span class="line">obj = $(patsubst  %.c,%.o,  $(src)) #将上面$(src)的值中.c替换成.o字符串</span><br><span class="line">target = app</span><br><span class="line">$(target): $(obj)</span><br><span class="line">    gcc  $&lt;  -o  $@</span><br><span class="line"></span><br><span class="line">%.o: %.c</span><br><span class="line">    gcc  -c  $&lt;  $@</span><br></pre></td></tr></table></figure>
+
+<p>清理功能：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">clean:</span><br><span class="line">     -rm  *.o  -f     #   -f   不产生提醒</span><br><span class="line">                                 #前面-   代表执行失败，继续执行</span><br></pre></td></tr></table></figure>
+
+<p>当前目录下有clean名文件时用声明伪目标的方法解决</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.PHONY:clean</span><br></pre></td></tr></table></figure>
+
+<p>#gdb调试<br>1.gcc a.c -o app -g     #-g生成的程序包含调试信息<br>2.gdb  app<br><code>set args   加参数（空格分开）</code><br>3.l  查看代码（可以指定文件名）  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">set listsize   20         #设置显示行数  </span><br><span class="line">当前文件：  </span><br><span class="line">l  </span><br><span class="line">l  行号 </span><br><span class="line">l  函数名  </span><br><span class="line">非当前文件：  </span><br><span class="line">l  文件名:行号</span><br><span class="line">l  文件名:函数名</span><br></pre></td></tr></table></figure>
+
+<p>4.b  断点操作<br>设置断点：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">b  行号</span><br><span class="line">b  函数名</span><br><span class="line">b  文件名:行号</span><br><span class="line">b  文件名:函数名</span><br></pre></td></tr></table></figure>
+
+<p>查看断点：<br><code>i  b</code><br>删除断点：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">d  num(断点编号)</span><br><span class="line">d  num1  num2</span><br><span class="line">d  num1-num6</span><br><span class="line">```  </span><br><span class="line">设置无效:  </span><br><span class="line">`dis num(编号)`  </span><br><span class="line">设置生效:  </span><br><span class="line">`ena num`  </span><br><span class="line">条件断点:  </span><br><span class="line">`b  行号  if 变量==`  </span><br><span class="line"></span><br><span class="line">打印变量：  </span><br><span class="line">`p  变量名`</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#vim  </span><br><span class="line">1.跳man手册  </span><br><span class="line">章节号 + K  </span><br><span class="line">2.分屏  </span><br><span class="line">vsp</span><br></pre></td></tr></table></figure>
+
+<p>“”””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””</p>
+<p>“ 显示相关  </p>
+<p>“”””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””</p>
+<p>“set shortmess=atI   “ 启动的时候不显示那个援助乌干达儿童的提示  </p>
+<p>“winpos 5 5          “ 设定窗口位置  </p>
+<p>“set lines=40 columns=155    “ 设定窗口大小  </p>
+<p>“set nu              “ 显示行号  </p>
+<p>set go=             “ 不要图形按钮  </p>
+<p>“color asmanian2     “ 设置背景主题  </p>
+<p>set guifont=Courier_New:h10:cANSI   “ 设置字体  </p>
+<p>“syntax on           “ 语法高亮  </p>
+<p>autocmd InsertLeave * se nocul  “ 用浅色高亮当前行  </p>
+<p>autocmd InsertEnter * se cul    “ 用浅色高亮当前行  </p>
+<p>“set ruler           “ 显示标尺  </p>
+<p>set showcmd         “ 输入的命令显示出来，看的清楚些  </p>
+<p>“set cmdheight=1     “ 命令行（在状态行下）的高度，设置为1  </p>
+<p>“set whichwrap+=&lt;,&gt;,h,l   “ 允许backspace和光标键跨越行边界(不建议)  </p>
+<p>“set scrolloff=3     “ 光标移动到buffer的顶部和底部时保持3行距离  </p>
+<p>set novisualbell    “ 不要闪烁(不明白)  </p>
+<p>set statusline=%F%m%r%h%w\ [FORMAT=%{&amp;ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(&quot;%d/%m/%y\ -\ %H:%M&quot;)}   “状态行显示的内容  </p>
+<p>set laststatus=1    “ 启动显示状态行(1),总是显示状态行(2)  </p>
+<p>set foldenable      “ 允许折叠  </p>
+<p>set foldmethod=manual   “ 手动折叠  </p>
+<p>“set background=dark “背景使用黑色 </p>
+<p>set nocompatible  “去掉讨厌的有关vi一致性模式，避免以前版本的一些bug和局限  </p>
+<p>“ 显示中文帮助</p>
+<p>if version &gt;= 603</p>
+<pre><code>set helplang=cn
+
+set encoding=utf-8</code></pre><p>endif</p>
+<p>“ 设置配色方案</p>
+<p>“colorscheme murphy</p>
+<p>“字体 </p>
+<p>“if (has(“gui_running”)) </p>
+<p>“   set guifont=Bitstream\ Vera\ Sans\ Mono\ 10 </p>
+<p>“endif </p>
+<p>set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936</p>
+<p>set termencoding=utf-8</p>
+<p>set encoding=utf-8</p>
+<p>set fileencodings=ucs-bom,utf-8,cp936</p>
+<p>set fileencoding=utf-8</p>
+<p>“””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””</p>
+<p>“””””新文件标题””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””</p>
+<p>“新建.c,.h,.sh,.java文件，自动插入文件头 </p>
+<p>autocmd BufNewFile <em>.cpp,</em>.[ch],<em>.sh,</em>.java exec “:call SetTitle()” </p>
+<p>“”定义函数SetTitle，自动插入文件头 </p>
+<p>func SetTitle() </p>
+<pre><code>&quot;如果文件类型为.sh文件 
+
+if &amp;filetype == &apos;sh&apos; 
+
+    call setline(1,&quot;\#########################################################################&quot;) 
+
+    call append(line(&quot;.&quot;), &quot;\# File Name: &quot;.expand(&quot;%&quot;)) 
+
+    call append(line(&quot;.&quot;)+1, &quot;\# Author: ma6174&quot;) 
+
+    call append(line(&quot;.&quot;)+2, &quot;\# mail: ma6174@163.com&quot;) 
+
+    call append(line(&quot;.&quot;)+3, &quot;\# Created Time: &quot;.strftime(&quot;%c&quot;)) 
+
+    call append(line(&quot;.&quot;)+4, &quot;\#########################################################################&quot;) 
+
+    call append(line(&quot;.&quot;)+5, &quot;\#!/bin/bash&quot;) 
+
+    call append(line(&quot;.&quot;)+6, &quot;&quot;) 
+
+else 
+
+    call setline(1, &quot;/*************************************************************************&quot;) 
+
+    call append(line(&quot;.&quot;), &quot;    &gt; File Name: &quot;.expand(&quot;%&quot;)) 
+
+    call append(line(&quot;.&quot;)+1, &quot;    &gt; Author: ma6174&quot;) 
+
+    call append(line(&quot;.&quot;)+2, &quot;    &gt; Mail: ma6174@163.com &quot;) 
+
+    call append(line(&quot;.&quot;)+3, &quot;    &gt; Created Time: &quot;.strftime(&quot;%c&quot;)) 
+
+    call append(line(&quot;.&quot;)+4, &quot; ************************************************************************/&quot;) 
+
+    call append(line(&quot;.&quot;)+5, &quot;&quot;)
+
+endif
+
+if &amp;filetype == &apos;cpp&apos;
+
+    call append(line(&quot;.&quot;)+6, &quot;#include&lt;iostream&gt;&quot;)
+
+    call append(line(&quot;.&quot;)+7, &quot;using namespace std;&quot;)
+
+    call append(line(&quot;.&quot;)+8, &quot;&quot;)
+
+endif
+
+if &amp;filetype == &apos;c&apos;
+
+    call append(line(&quot;.&quot;)+6, &quot;#include&lt;stdio.h&gt;&quot;)
+
+    call append(line(&quot;.&quot;)+7, &quot;&quot;)
+
+endif
+
+&quot;新建文件后，自动定位到文件末尾
+
+autocmd BufNewFile * normal G</code></pre><p>endfunc </p>
+<p>“”””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””</p>
+<p>“键盘命令</p>
+<p>“”””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””</p>
+<p>nmap <leader>w :w!<cr></cr></leader></p>
+<p>nmap <leader>f :find<cr></cr></leader></p>
+<p>“ 映射全选+复制 ctrl+a</p>
+<p>map <c-a> ggVGY</c-a></p>
+<p>map! <c-a> <esc>ggVGY</esc></c-a></p>
+<p>map <f12> gg=G</f12></p>
+<p>“ 选中状态下 Ctrl+c 复制</p>
+<p>vmap <c-c> “+y</c-c></p>
+<p>“去空行  </p>
+<p>nnoremap <f2> :g/^\s*$/d<cr> </cr></f2></p>
+<p>“比较文件  </p>
+<p>nnoremap <c-f2> :vert diffsplit </c-f2></p>
+<p>“新建标签  </p>
+<p>map <m-f2> :tabnew<cr>  </cr></m-f2></p>
+<p>“列出当前目录文件  </p>
+<p>map <f3> :tabnew .<cr>  </cr></f3></p>
+<p>“打开树状文件目录  </p>
+<p>map <c-f3> \be  </c-f3></p>
+<p>“C，C++ 按F5编译运行</p>
+<p>map <f5> :call CompileRunGcc()<cr></cr></f5></p>
+<p>func! CompileRunGcc()</p>
+<pre><code>exec &quot;w&quot;
+
+if &amp;filetype == &apos;c&apos;
+
+    exec &quot;!g++ % -o %&lt;&quot;
+
+    exec &quot;! ./%&lt;&quot;
+
+elseif &amp;filetype == &apos;cpp&apos;
+
+    exec &quot;!g++ % -o %&lt;&quot;
+
+    exec &quot;! ./%&lt;&quot;
+
+elseif &amp;filetype == &apos;java&apos; 
+
+    exec &quot;!javac %&quot; 
+
+    exec &quot;!java %&lt;&quot;
+
+elseif &amp;filetype == &apos;sh&apos;
+
+    :!./%
+
+endif</code></pre><p>endfunc</p>
+<p>“C,C++的调试</p>
+<p>map <f8> :call Rungdb()<cr></cr></f8></p>
+<p>func! Rungdb()</p>
+<pre><code>exec &quot;w&quot;
+
+exec &quot;!g++ % -g -o %&lt;&quot;
+
+exec &quot;!gdb ./%&lt;&quot;</code></pre><p>endfunc</p>
+<p>“”””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””</p>
+<p>“”实用设置</p>
+<p>“””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””</p>
+<p>“ 设置当文件被改动时自动载入</p>
+<p>set autoread</p>
+<p>“ quickfix模式</p>
+<p>autocmd FileType c,cpp map <buffer> <leader><space> :w<cr>:make<cr></cr></cr></space></leader></buffer></p>
+<p>“代码补全 </p>
+<p>set completeopt=preview,menu </p>
+<p>“允许插件  </p>
+<p>filetype plugin on</p>
+<p>“共享剪贴板  </p>
+<p>set clipboard+=unnamed </p>
+<p>“从不备份  </p>
+<p>set nobackup</p>
+<p>“make 运行</p>
+<p>:set makeprg=g++\ -Wall\ \ %</p>
+<p>“自动保存</p>
+<p>set autowrite</p>
+<p>set ruler                   “ 打开状态栏标尺</p>
+<p>set cursorline              “ 突出显示当前行</p>
+<p>set magic                   “ 设置魔术</p>
+<p>set guioptions-=T           “ 隐藏工具栏</p>
+<p>set guioptions-=m           “ 隐藏菜单栏</p>
+<p>“set statusline=\ %&lt;%F[%1<em>%M%</em>%n%R%H]%=\ %y\ %0(%{&amp;fileformat}\ %{&amp;encoding}\ %c:%l/%L%)\</p>
+<p>“ 设置在状态行显示的信息</p>
+<p>set foldcolumn=0</p>
+<p>set foldmethod=indent </p>
+<p>set foldlevel=3 </p>
+<p>set foldenable              “ 开始折叠</p>
+<p>“ 不要使用vi的键盘模式，而是vim自己的</p>
+<p>set nocompatible</p>
+<p>“ 语法高亮</p>
+<p>set syntax=on</p>
+<p>“ 去掉输入错误的提示声音</p>
+<p>set noeb</p>
+<p>“ 在处理未保存或只读文件的时候，弹出确认</p>
+<p>set confirm</p>
+<p>“ 自动缩进</p>
+<p>set autoindent</p>
+<p>set cindent</p>
+<p>“ Tab键的宽度</p>
+<p>set tabstop=4</p>
+<p>“ 统一缩进为4</p>
+<p>set softtabstop=4</p>
+<p>set shiftwidth=4</p>
+<p>“ 不要用空格代替制表符</p>
+<p>set noexpandtab</p>
+<p>“ 在行和段开始处使用制表符</p>
+<p>set smarttab</p>
+<p>“ 显示行号</p>
+<p>set number</p>
+<p>“ 历史记录数</p>
+<p>set history=1000</p>
+<p>“禁止生成临时文件</p>
+<p>set nobackup</p>
+<p>set noswapfile</p>
+<p>“搜索忽略大小写</p>
+<p>set ignorecase</p>
+<p>“搜索逐字符高亮</p>
+<p>set hlsearch</p>
+<p>set incsearch</p>
+<p>“行内替换</p>
+<p>set gdefault</p>
+<p>“编码设置</p>
+<p>set enc=utf-8</p>
+<p>set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936</p>
+<p>“语言设置</p>
+<p>set langmenu=zh_CN.UTF-8</p>
+<p>set helplang=cn</p>
+<p>“ 我的状态行显示的内容（包括文件类型和解码）</p>
+<p>“set statusline=%F%m%r%h%w\ [FORMAT=%{&amp;ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(&quot;%d/%m/%y\ -\ %H:%M&quot;)}</p>
+<p>“set statusline=[%F]%y%r%m%*%=[Line:%l/%L,Column:%c][%p%%]</p>
+<p>“ 总是显示状态行</p>
+<p>set laststatus=2</p>
+<p>“ 命令行（在状态行下）的高度，默认为1，这里是2</p>
+<p>set cmdheight=2</p>
+<p>“ 侦测文件类型</p>
+<p>filetype on</p>
+<p>“ 载入文件类型插件</p>
+<p>filetype plugin on</p>
+<p>“ 为特定文件类型载入相关缩进文件</p>
+<p>filetype indent on</p>
+<p>“ 保存全局变量</p>
+<p>set viminfo+=!</p>
+<p>“ 带有如下符号的单词不要被换行分割</p>
+<p>set iskeyword+=_,$,@,%,#,-</p>
+<p>“ 字符间插入的像素行数目</p>
+<p>set linespace=0</p>
+<p>“ 增强模式中的命令行自动完成操作</p>
+<p>set wildmenu</p>
+<p>“ 使回格键（backspace）正常处理indent, eol, start等</p>
+<p>set backspace=2</p>
+<p>“ 允许backspace和光标键跨越行边界</p>
+<p>set whichwrap+=&lt;,&gt;,h,l</p>
+<p>“ 可以在buffer的任何地方使用鼠标（类似office中在工作区双击鼠标定位）</p>
+<p>set mouse=a</p>
+<p>set selection=exclusive</p>
+<p>set selectmode=mouse,key</p>
+<p>“ 通过使用: commands命令，告诉我们文件的哪一行被改变过</p>
+<p>set report=0</p>
+<p>“ 在被分割的窗口间显示空白，便于阅读</p>
+<p>set fillchars=vert:\ ,stl:\ ,stlnc:\</p>
+<p>“ 高亮显示匹配的括号</p>
+<p>set showmatch</p>
+<p>“ 匹配括号高亮的时间（单位是十分之一秒）</p>
+<p>set matchtime=1</p>
+<p>“ 光标移动到buffer的顶部和底部时保持3行距离</p>
+<p>set scrolloff=3</p>
+<p>“ 为C程序提供自动缩进</p>
+<p>set smartindent</p>
+<p>“ 高亮显示普通txt文件（需要txt.vim脚本）</p>
+<p>au BufRead,BufNewFile *  setfiletype txt</p>
+<p>“自动补全</p>
+<p>:inoremap ( ()<esc>i</esc></p>
+<p>:inoremap ) <c-r>=ClosePair(‘)’)<cr></cr></c-r></p>
+<p>:inoremap { {<cr>}<esc>O</esc></cr></p>
+<p>:inoremap } <c-r>=ClosePair(‘}’)<cr></cr></c-r></p>
+<p>:inoremap [ []<esc>i</esc></p>
+<p>:inoremap ] <c-r>=ClosePair(‘]’)<cr></cr></c-r></p>
+<p>:inoremap “ “”<esc>i</esc></p>
+<p>:inoremap ‘ ‘’<esc>i</esc></p>
+<p>function! ClosePair(char)</p>
+<pre><code>if getline(&apos;.&apos;)[col(&apos;.&apos;) - 1] == a:char
+
+    return &quot;\&lt;Right&gt;&quot;
+
+else
+
+    return a:char
+
+endif</code></pre><p>endfunction</p>
+<p>filetype plugin indent on </p>
+<p>“打开文件类型检测, 加了这句才可以用智能补全</p>
+<p>set completeopt=longest,menu</p>
+<p>“””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””</p>
+<p>“ CTags的设定  </p>
+<p>“””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””</p>
+<p>let Tlist_Sort_Type = “name”    “ 按照名称排序  </p>
+<p>let Tlist_Use_Right_Window = 1  “ 在右侧显示窗口  </p>
+<p>let Tlist_Compart_Format = 1    “ 压缩方式  </p>
+<p>let Tlist_Exist_OnlyWindow = 1  “ 如果只有一个buffer，kill窗口也kill掉buffer  </p>
+<p>let Tlist_File_Fold_Auto_Close = 0  “ 不要关闭其他文件的tags  </p>
+<p>let Tlist_Enable_Fold_Column = 0    “ 不要显示折叠树  </p>
+<p>autocmd FileType java set tags+=D:\tools\java\tags  </p>
+<p>“autocmd FileType h,cpp,cc,c set tags+=D:\tools\cpp\tags  </p>
+<p>“let Tlist_Show_One_File=1            “不同时显示多个文件的tag，只显示当前文件的</p>
+<p>“设置tags  </p>
+<p>set tags=tags  </p>
+<p>“set autochdir </p>
+<p>“”””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””</p>
+<p>“其他东东</p>
+<p>“””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””</p>
+<p>“默认打开Taglist </p>
+<p>let Tlist_Auto_Open=1 </p>
+<p>“””””””””””””””””””””””””””””” </p>
+<p>“ Tag list (ctags) </p>
+<p>“””””””””””””””””””””””””””””””” </p>
+<p>let Tlist_Ctags_Cmd = ‘/usr/bin/ctags’ </p>
+<p>let Tlist_Show_One_File = 1 “不同时显示多个文件的tag，只显示当前文件的 </p>
+<p>let Tlist_Exit_OnlyWindow = 1 “如果taglist窗口是最后一个窗口，则退出vim </p>
+<p>let Tlist_Use_Right_Window = 1 “在右侧窗口中显示taglist窗口</p>
+<p>“ minibufexpl插件的一般设置</p>
+<p>let g:miniBufExplMapWindowNavVim = 1</p>
+<p>let g:miniBufExplMapWindowNavArrows = 1</p>
+<p>let g:miniBufExplMapCTabSwitchBufs = 1<br>let g:miniBufExplModSelTarget = 1<br>```</p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://peheader.github.io">pediy</a>
+            <p>原文链接：<a href="http://peheader.github.io/2019/07/15/gdb.vim.makefile等使用/">http://peheader.github.io/2019/07/15/gdb.vim.makefile等使用/</a>
+            <p>发表日期：<a href="http://peheader.github.io/2019/07/15/gdb.vim.makefile等使用/">July 15th 2019, 12:29:06 am</a>
+            <p>更新日期：<a href="http://peheader.github.io/2019/07/15/gdb.vim.makefile等使用/">July 15th 2019, 12:29:06 am</a>
+            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/07/14/xinetd安装配置/" title= "xinetd的安装配置，及简单服务器搭建">
+                    <div class="prevTitle">xinetd的安装配置，及简单服务器搭建</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:tomcatzst@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/peheader" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#title-makefile、gdb、vim等使用"><span class="toc-number">1.</span> <span class="toc-text">title:makefile、gdb、vim等使用</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 5
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/14</span><a class="archive-post-title" href= "/2019/07/14/xinetd安装配置/" >xinetd的安装配置，及简单服务器搭建</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2019/07/15/gdb.vim.makefile等使用/" >[Untitled Post]</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/11</span><a class="archive-post-title" href= "/2019/07/11/cache/" >2、常见的缓冲区类型以及服务器开发</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/07</span><a class="archive-post-title" href= "/2019/07/07/usegit/" >对git的理解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/07</span><a class="archive-post-title" href= "/2019/07/07/hello-world/" >Hello World</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "pediy"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
