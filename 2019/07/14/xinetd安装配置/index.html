@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="pediy">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="pediy">
+    
+    <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content>
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>xinetd的安装配置，及简单服务器搭建 · pediy&#39;s Studio</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+</head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >pediy&#39;s Studio.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">xinetd的安装配置，及简单服务器搭建</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>pediy's Studio.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            xinetd的安装配置，及简单服务器搭建
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">2.1k</span>阅读时长: <span class="post-count reading-time">11 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2019/07/14</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="xinetd"><a href="#xinetd" class="headerlink" title="xinetd"></a>xinetd</h1><p>是一个守护进程（系统后台程序，周期性的执行某些任务或者某个时事件的发生，不随用户注销而退出）</p>
+<p>创建守护进程的方法：不能是组长进程—-fork子进程，父进程结束，子进程setsid()创建会话，脱离控制终端。修改权限、文件描述符，重定向dup2().</p>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p><strong>第一步</strong><br>三个统一：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/etc/xinetd.d/配置文件名</span><br><span class="line">该配置文件中的像结构体的名字</span><br><span class="line">唤醒的可执行文件名</span><br></pre></td></tr></table></figure>
+
+<p>三者文件名字必须一致</p>
+<p>写配置文件在对齐时只能用Tab键，千万不能使用空格<br>配置实例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">service st_server</span><br><span class="line">&#123;</span><br><span class="line">	socket_type = stream</span><br><span class="line">	protocol = tcp</span><br><span class="line">	wait = no</span><br><span class="line">	user = nobody</span><br><span class="line">	server = /home/moson/myserver/st_server</span><br><span class="line">	server_args = /home/moson/myserver/serversrc</span><br><span class="line">	disable = no</span><br><span class="line">	flags = IPv4</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>第二步</strong><br>/etc/service下配置监听端口</p>
+<p><strong>第三步</strong><br>重启xinetd的服务器<br><code>sudo service xinetd restart</code></p>
+<p><strong>第四步</strong><br>查看是否有该守护进程  (至少有两条结果，不然配置文件写错)<br><code>ps aux|grep xinetd</code></p>
+<p>#实验代码</p>
+<p>serverUtil.h</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/stat.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;time.h&gt;</span><br><span class="line"></span><br><span class="line">#include &lt;ctype.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line"></span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;dirent.h&gt;</span><br><span class="line"></span><br><span class="line">#define N 4096</span><br><span class="line">#define PROTOCOL &quot;HTTP/1.1&quot;</span><br><span class="line">#define TIMELENGTH 100</span><br><span class="line">#define SERVER_NAME &quot;xhttpd&quot;</span><br><span class="line">#define SERVER_URL &quot;http://www.baidu.com&quot;</span><br><span class="line">#define FORMAT_DATE &quot;%a,%d %b %Y %H:%M:%S GMT&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">extern void send_header(int status,char* title,char* extra_header,char* file_type,off_t length,time_t mod);</span><br><span class="line">extern void send_error(int status,char* title,char* extra_header,char* text);</span><br><span class="line">extern void strencode(char* to,size_t tosize,const char* from);</span><br><span class="line">extern void file_infos(char* dir,char* name);</span><br><span class="line">extern void strdecode(char* to,char* from);</span><br><span class="line">extern char* get_mine_type(char* name);</span><br><span class="line">extern int hexit(char c);</span><br></pre></td></tr></table></figure>
+
+<p>serverUtil.c</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;serverUtil.h&quot;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> *status        ：状态码</span><br><span class="line"> *title         ：状态 Ok等</span><br><span class="line"> *extra_header  ：</span><br><span class="line"> *mine_type     ：响应文件类型</span><br><span class="line"> *length        ：报文长度</span><br><span class="line"> *mod           ：</span><br><span class="line"> * */</span><br><span class="line">void send_header(int status,char* title,char* extra_header,char* file_type,off_t length,time_t mod)</span><br><span class="line">&#123;</span><br><span class="line">    time_t now; //</span><br><span class="line">    char timebuf[TIMELENGTH];</span><br><span class="line"></span><br><span class="line">    printf(&quot;%s %d %s\r\n&quot;,PROTOCOL,status,title);</span><br><span class="line">    printf(&quot;Server:%s\r\n&quot;,SERVER_NAME);</span><br><span class="line">    now = time(NULL);</span><br><span class="line">    //gmtime返回tm结构体，将tm结构体的时间格式化到字符缓冲区</span><br><span class="line">    strftime(timebuf,sizeof(timebuf),FORMAT_DATE,gmtime(&amp;now));</span><br><span class="line">    printf(&quot;Date:%s\r\n&quot;,timebuf);</span><br><span class="line"></span><br><span class="line">    if(extra_header != NULL)&#123;</span><br><span class="line">        printf(&quot;%s\r\n&quot;,extra_header);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if(file_type != NULL)&#123;</span><br><span class="line">        printf(&quot;Content-Type:%s\r\n&quot;,file_type);</span><br><span class="line">    &#125;</span><br><span class="line">    if(length &gt;= 0)&#123;</span><br><span class="line">        printf(&quot;Content-Length:%lld\r\n&quot;,length);</span><br><span class="line">    &#125;</span><br><span class="line">    if(mod != (time_t)-1)&#123;</span><br><span class="line">        strftime(timebuf,sizeof(timebuf),FORMAT_DATE,gmtime(&amp;mod));</span><br><span class="line">        printf(&quot;Last-Modified:%s\r\n&quot;,timebuf);</span><br><span class="line">    &#125;</span><br><span class="line">    printf(&quot;Connection:close\r\n&quot;);</span><br><span class="line">    printf(&quot;\r\n&quot;);</span><br><span class="line">&#125;</span><br><span class="line">/*</span><br><span class="line"> *功能：用于发送服务器出错的情况</span><br><span class="line"> *status        :状态码</span><br><span class="line"> *title         :出错信息</span><br><span class="line"> *extra_header  :出错信息</span><br><span class="line"> *text          :网页出错内容</span><br><span class="line"> * */</span><br><span class="line">void send_error(int status,char* title,char* extra_header,char* text)</span><br><span class="line">&#123;</span><br><span class="line">    //发送请求头</span><br><span class="line">    send_header(status,title,extra_header,&quot;text/html&quot;,-1,-1);</span><br><span class="line">    printf(&quot;&lt;html&gt;&lt;head&gt;&lt;title&gt;%d %s&lt;/title&gt;&lt;/head&gt;&lt;body bgcolor=\&quot;#cc9999\&quot;&gt;&lt;h4&gt;%d %s&lt;/h4&gt;%s&lt;hr&gt;&lt;address&gt;&lt;a href=\&quot;%s\&quot;&gt;%s&lt;/a&gt;&lt;/address&gt;&lt;/body&gt;&lt;/html&gt;\n&quot;,status,title,status,title,text,SERVER_URL,SERVER_NAME);</span><br><span class="line">    fflush(stdout);</span><br><span class="line">    exit(1);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*功能：字符串编码</span><br><span class="line"> *to        ：传出参数，编码后字符串的指针</span><br><span class="line"> *tosize    ：传出参数的长度</span><br><span class="line"> *from      ：传入字符串</span><br><span class="line"> * */</span><br><span class="line">void strencode(char* to,size_t tosize,const char* from)</span><br><span class="line">&#123;</span><br><span class="line">    int count;</span><br><span class="line">    for(count = 0;*from != &apos;\0&apos; &amp;&amp; count + 4 &lt; tosize; from ++)&#123;</span><br><span class="line">        if(isalnum(*from) || strchr(&quot;/_.-~&quot;,*from) != 0)&#123;</span><br><span class="line">            *to = *from;</span><br><span class="line">            to++;</span><br><span class="line">            count++;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            sprintf(to,&quot;%%%02x&quot;,(int)*from&amp;0xff);</span><br><span class="line">            to += 3;</span><br><span class="line">            count += 3;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    *to = &apos;\0&apos;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*功能：文件信息</span><br><span class="line"> *</span><br><span class="line"> *</span><br><span class="line"> *</span><br><span class="line"> *</span><br><span class="line"> *</span><br><span class="line"> * */</span><br><span class="line">void file_infos(char* dir,char* name)</span><br><span class="line">&#123;</span><br><span class="line">    static char encoded_name[N];</span><br><span class="line">    static char path[N];</span><br><span class="line">    char timestr[16];</span><br><span class="line">    struct stat sb;</span><br><span class="line"></span><br><span class="line">    strencode(encoded_name,sizeof(encoded_name),name);</span><br><span class="line">    snprintf(path,sizeof(path),&quot;%s/%s&quot;,dir,name);</span><br><span class="line"></span><br><span class="line">    if(lstat(path,&amp;sb) &lt; 0)</span><br><span class="line">        printf(&quot;&lt;a href=\&quot;%s\&quot;&gt;%-32.32s&lt;/a&gt;           ???\n&quot;,encoded_name,name);</span><br><span class="line">    else&#123;</span><br><span class="line">        strftime(timestr,sizeof(timestr),&quot;%d%b%Y %H:%M&quot;,localtime(&amp;sb.st_mtime));</span><br><span class="line">        printf(&quot;&lt;a href=\&quot;%s\&quot;&gt;%-32.32s&lt;/a&gt;   %15s %14lld\n&quot;,encoded_name,name,timestr,(int64_t)sb.st_size);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/*功能： 解码浏览器客户端发送过来的字符串</span><br><span class="line"> *from  ：输入字符串</span><br><span class="line"> *to    ：输出字符串</span><br><span class="line"> * */</span><br><span class="line">void strdecode(char* to,char* from)</span><br><span class="line">&#123;</span><br><span class="line">    while(*from != &apos;\0&apos;)</span><br><span class="line">    &#123;</span><br><span class="line">        if(from[0] == &apos;%&apos; &amp;&amp; isxdigit(from[1]) &amp;&amp; isxdigit(from[2]))</span><br><span class="line">        &#123;</span><br><span class="line">            *to = hexit(from[1]) * 16 +hexit(from[2]);</span><br><span class="line">            from += 3;to ++;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            *to = *from;</span><br><span class="line">            to++;</span><br><span class="line">            from++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    *to = &apos;\0&apos;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">char* get_mine_type(char* name)</span><br><span class="line">&#123;</span><br><span class="line">    char* dot;</span><br><span class="line"> </span><br><span class="line">    dot = strrchr(name, &apos;.&apos;);	//自右向左查找‘.’字符;如不存在返回NULL</span><br><span class="line"> </span><br><span class="line">	/*</span><br><span class="line">	 *charset=iso-8859-1	西欧的编码，说明网站采用的编码是英文；</span><br><span class="line">	 *charset=gb2312		说明网站采用的编码是简体中文；</span><br><span class="line">	 *charset=utf-8			代表世界通用的语言编码；</span><br><span class="line">     *						可以用到中文、韩文、日文等世界上所有语言编码上</span><br><span class="line">	 *charset=euc-kr		说明网站采用的编码是韩文；</span><br><span class="line">	 *charset=big5			说明网站采用的编码是繁体中文；</span><br><span class="line">	 *</span><br><span class="line">	 *以下是依据传递进来的文件名，使用后缀判断是何种文件类型</span><br><span class="line">	 *将对应的文件类型按照http定义的关键字发送回去</span><br><span class="line">	 */</span><br><span class="line">    if (dot == (char*)0)</span><br><span class="line">		return &quot;text/plain; charset=iso-8859-1&quot;;</span><br><span class="line">    if (strcmp(dot, &quot;.html&quot;) == 0 || strcmp(dot, &quot;.htm&quot;) == 0)</span><br><span class="line">		return &quot;text/html; charset=iso-8859-1&quot;;</span><br><span class="line">    if (strcmp(dot, &quot;.jpg&quot;) == 0 || strcmp(dot, &quot;.jpeg&quot;) == 0)</span><br><span class="line">		return &quot;image/jpeg&quot;;</span><br><span class="line">    if (strcmp(dot, &quot;.gif&quot;) == 0)</span><br><span class="line">		return &quot;image/gif&quot;;</span><br><span class="line">    if (strcmp(dot, &quot;.png&quot;) == 0)</span><br><span class="line">		return &quot;image/png&quot;;</span><br><span class="line">    if (strcmp(dot, &quot;.css&quot;) == 0)	</span><br><span class="line">		return &quot;text/css&quot;;</span><br><span class="line">    if (strcmp(dot, &quot;.au&quot;) == 0)	</span><br><span class="line">		return &quot;audio/basic&quot;;</span><br><span class="line">    if (strcmp( dot, &quot;.wav&quot;) == 0)</span><br><span class="line">		return &quot;audio/wav&quot;;</span><br><span class="line">    if (strcmp(dot, &quot;.avi&quot;) == 0)</span><br><span class="line">		return &quot;video/x-msvideo&quot;;</span><br><span class="line">    if (strcmp(dot, &quot;.mov&quot;) == 0 || strcmp(dot, &quot;.qt&quot;) == 0)</span><br><span class="line">		return &quot;video/quicktime&quot;;</span><br><span class="line">    if (strcmp(dot, &quot;.mpeg&quot;) == 0 || strcmp(dot, &quot;.mpe&quot;) == 0)</span><br><span class="line">		return &quot;video/mpeg&quot;;</span><br><span class="line">    if (strcmp(dot, &quot;.vrml&quot;) == 0 || strcmp(dot, &quot;.wrl&quot;) == 0)	</span><br><span class="line">		return &quot;model/vrml&quot;;</span><br><span class="line">    if (strcmp(dot, &quot;.midi&quot;) == 0 || strcmp(dot, &quot;.mid&quot;) == 0)	</span><br><span class="line">		return &quot;audio/midi&quot;;</span><br><span class="line">    if (strcmp(dot, &quot;.mp3&quot;) == 0)</span><br><span class="line">		return &quot;audio/mpeg&quot;;</span><br><span class="line">    if (strcmp(dot, &quot;.ogg&quot;) == 0)	</span><br><span class="line">		return &quot;application/ogg&quot;;</span><br><span class="line">    if (strcmp(dot, &quot;.pac&quot;) == 0)	</span><br><span class="line">		return &quot;application/x-ns-proxy-autoconfig&quot;;</span><br><span class="line"> </span><br><span class="line">	return &quot;text/plain; charset=iso-8859-1&quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/*将16进制转化成10进制</span><br><span class="line"> * 返回值是0表示不在16进制范围内</span><br><span class="line"> * */</span><br><span class="line">int hexit(char c)</span><br><span class="line">&#123;</span><br><span class="line">    if(c &gt;= &apos;0&apos; &amp;&amp; c &lt;= &apos;9&apos;)</span><br><span class="line">        return c-&apos;0&apos;;</span><br><span class="line">    if(c &gt;= &apos;a&apos; &amp;&amp; c &lt;= &apos;f&apos;)</span><br><span class="line">        return c-&apos;a&apos;+10;</span><br><span class="line">    if(c &gt;= &apos;A&apos; &amp;&amp; c &lt;= &apos;F&apos;)</span><br><span class="line">        return c-&apos;A&apos;+10;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>server.c</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;serverUtil.h&quot;</span><br><span class="line"></span><br><span class="line">int main(int argc,char** argv)</span><br><span class="line">&#123;</span><br><span class="line">    char line[N*2],method[N*2],path[N*2],protocol[N*2],location[N*4],idx[N*4];</span><br><span class="line">    char* file;</span><br><span class="line">    size_t len;</span><br><span class="line">    int n,i;</span><br><span class="line">    struct dirent **namelist;</span><br><span class="line">    FILE* fp;</span><br><span class="line">    struct stat sb;</span><br><span class="line">    int ich;</span><br><span class="line"></span><br><span class="line">    //判断是否配置根路径</span><br><span class="line">    if(argc != 2)</span><br><span class="line">        send_error(500,&quot;Internet Error&quot;,NULL,&quot;Config error - No Base Dir spectified&quot;);</span><br><span class="line">    </span><br><span class="line">    //切换当前工作目录到BaseDir</span><br><span class="line">    if(chdir(argv[1]) &lt; 0)</span><br><span class="line">        send_error(500,&quot;Internet Error&quot;,NULL,&quot;Config error - couldn&apos;t change dir&quot;);</span><br><span class="line">    </span><br><span class="line">    //读取Http请求行</span><br><span class="line">    if(fgets(line,sizeof(line),stdin) == NULL)</span><br><span class="line">        send_error(400,&quot;Bad Request&quot;,NULL,&quot;No Request Found&quot;);</span><br><span class="line"></span><br><span class="line">    //解析请求参数</span><br><span class="line">    if(sscanf(line,&quot;%[^ ] %[^ ] %[^ ]&quot;,method,path,protocol) != 3)</span><br><span class="line">        send_error(400,&quot;Bad Request&quot;,NULL,&quot;Can&apos;t parse request.&quot;);</span><br><span class="line"></span><br><span class="line">    //获取请求头</span><br><span class="line">    while(fgets(line,sizeof(line),stdin) != NULL)</span><br><span class="line">        if(strcmp(line,&quot;\n&quot;) == 0 || strcmp(line,&quot;\r\n&quot;) == 0)</span><br><span class="line">            break;</span><br><span class="line">    </span><br><span class="line">    //只支持GET 请求</span><br><span class="line">    if(strcasecmp(method,&quot;GET&quot;) != 0)</span><br><span class="line">        send_error(501,&quot;Not Implemented&quot;,NULL,&quot;It&apos;s not the Get method&quot;);</span><br><span class="line"></span><br><span class="line">    if(path[0] != &apos;/&apos;)</span><br><span class="line">        send_error(400,&quot;Bad Request&quot;,NULL,&quot;Invalid Filename&quot;);</span><br><span class="line"></span><br><span class="line">    file = path + 1;</span><br><span class="line"></span><br><span class="line">    //将路径名解码</span><br><span class="line">    strdecode(file,file);</span><br><span class="line"></span><br><span class="line">    if(file[0] == &apos;\0&apos;)</span><br><span class="line">        file = &quot;./&quot;;</span><br><span class="line"></span><br><span class="line">    len = strlen(file);</span><br><span class="line"></span><br><span class="line">    if(file[0] == &apos;/&apos; || strcmp(file,&quot;..&quot;) == 0</span><br><span class="line">                      || strncmp(file,&quot;../&quot;,3) == 0</span><br><span class="line">                      || strstr(file,&quot;/../&quot;) != NULL</span><br><span class="line">                      || strcmp(&amp;(file[len-3]),&quot;/..&quot;) == 0)</span><br><span class="line">    &#123;</span><br><span class="line">        send_error(400,&quot;Bad Request&quot;,NULL,&quot;Illegal filename&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //获取文件状态</span><br><span class="line">    if(stat(file,&amp;sb) &lt; 0)</span><br><span class="line">        send_error(404,&quot;Not Found&quot;,NULL,&quot;File not found&quot;);</span><br><span class="line"></span><br><span class="line">    //是否是目录</span><br><span class="line">    if(S_ISDIR(sb.st_mode))&#123;</span><br><span class="line">        //目录最后要以&apos;/&apos;结尾</span><br><span class="line">        if(file[len-1] != &apos;/&apos;)&#123;</span><br><span class="line">            snprintf(location,sizeof(location),&quot;Location:%s/&quot;,path);</span><br><span class="line">            send_error(302,&quot;Found&quot;,location,&quot;Dir must end with a slash.&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        snprintf(idx,sizeof(idx),&quot;%sindex.html&quot;,file);</span><br><span class="line">        </span><br><span class="line">        //如果在该目录下找到index.html，跳到do_file处</span><br><span class="line">        if(stat(idx,&amp;sb) &gt;= 0)&#123;</span><br><span class="line">            file = idx;</span><br><span class="line">            goto do_file;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        send_header(200,&quot;ok&quot;,NULL,&quot;text/html&quot;,-1,sb.st_mtime);</span><br><span class="line">        printf(&quot;&lt;html&gt;&lt;head&gt;&lt;title&gt;Index of %s&lt;/title&gt;&lt;/head&gt;&lt;body bgcolor=\&quot;#99cc99\&quot;&gt;&lt;h4&gt;Index of %s&lt;/h4&gt;&lt;pre&gt;&quot;,file,file);</span><br><span class="line">        n = scandir(file,&amp;namelist,NULL,alphasort);</span><br><span class="line">        if (n == -1)&#123;</span><br><span class="line">            perror(&quot;scandir&quot;);</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            for(i = 0;i &lt; n;++i)</span><br><span class="line">                file_infos(file,namelist[i]-&gt;d_name);</span><br><span class="line">        &#125;</span><br><span class="line">        printf(&quot;&lt;/pre&gt;&lt;hr&gt;&lt;address&gt;&lt;a href=\&quot;%s\&quot;&gt;%s&lt;/a&gt;&lt;/address&gt;&lt;/body&gt;&lt;/html&gt;&quot;,SERVER_URL,SERVER_NAME);</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        //不是目录的情况</span><br><span class="line">do_file:</span><br><span class="line">        fp = fopen(file,&quot;r&quot;);</span><br><span class="line">        if(fp == (FILE*)0)</span><br><span class="line">            send_error(403,&quot;Forbidden&quot;,NULL,&quot;File is protoct.&quot;);</span><br><span class="line">        send_header(200,&quot;ok&quot;,NULL,get_mine_type(file),sb.st_size,sb.st_mtime);</span><br><span class="line">        while((ich = getc(fp)) != EOF)</span><br><span class="line">            putchar(ich);</span><br><span class="line">    &#125;</span><br><span class="line">    fflush(stdout);</span><br><span class="line">    fclose(fp);</span><br><span class="line">    exit(0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://peheader.github.io">pediy</a>
+            <p>原文链接：<a href="http://peheader.github.io/2019/07/14/xinetd安装配置/">http://peheader.github.io/2019/07/14/xinetd安装配置/</a>
+            <p>发表日期：<a href="http://peheader.github.io/2019/07/14/xinetd安装配置/">July 14th 2019, 10:35:46 pm</a>
+            <p>更新日期：<a href="http://peheader.github.io/2019/07/14/xinetd安装配置/">July 14th 2019, 10:35:46 pm</a>
+            <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/07/11/cache/" title= "2、常见的缓冲区类型以及服务器开发">
+                    <div class="prevTitle">2、常见的缓冲区类型以及服务器开发</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:tomcatzst@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/peheader" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#xinetd"><span class="toc-number">1.</span> <span class="toc-text">xinetd</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置"><span class="toc-number">2.</span> <span class="toc-text">配置</span></a></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 4
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/14</span><a class="archive-post-title" href= "/2019/07/14/xinetd安装配置/" >xinetd的安装配置，及简单服务器搭建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/11</span><a class="archive-post-title" href= "/2019/07/11/cache/" >2、常见的缓冲区类型以及服务器开发</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/07</span><a class="archive-post-title" href= "/2019/07/07/usegit/" >对git的理解</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/07</span><a class="archive-post-title" href= "/2019/07/07/hello-world/" >Hello World</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "pediy"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+

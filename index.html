@@ -359,9 +359,9 @@ height:50vh;
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2019/07/08/xinetd安装配置/" >
+        <a class="abstract-title" href = "/2019/07/14/xinetd安装配置/" >
             
-                <span>xinetd</span>
+                <span>xinetd的安装配置，及简单服务器搭建</span>
         </a>
         <div class="abstract-content">
             xinetd是一个守护进程（系统后台程序，周期性的执行某些任务或者某个时事件的发生，不随用户注销而退出）
@@ -376,7 +376,41 @@ height:50vh;
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/08</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/14</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/07/11/cache/" >
+            
+                <span>2、常见的缓冲区类型以及服务器开发</span>
+        </a>
+        <div class="abstract-content">
+            open–close等系统调用————&gt;内核缓冲区fopen–fclose等库函数————&gt;标准库—–&gt;系统调用——&gt;用户缓冲区
+##行缓冲(遇到’\n’或fflush()刷新缓冲)：只有stdout缓冲区的刷新依赖换行标记，标准输出printf()等
+##全缓冲缓冲区的刷新，依赖文件结束标记EOF，用户缓冲区，内核默认文件读写缓冲区
+##无缓冲只要缓冲区有数据，立即刷新到屏幕
+重点注意行缓冲区
+#读目录
+#服务器开发
+
+判断argc != 2
+chdir()切换工作目录
+fgets()读取http请求行
+sscanf()解析请求行参数 &gt;&gt;&gt; ...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/11</span>
             </div>
             <!-- tags  -->
             
@@ -646,9 +680,20 @@ Mo...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 3
+        Total : 4
         </div>
         <!-- search  -->
         
@@ -664,7 +709,12 @@ Mo...
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/08</span><a class="archive-post-title" href= "/2019/07/08/xinetd安装配置/" >xinetd</a>
+            <span class="archive-post-date">07/14</span><a class="archive-post-title" href= "/2019/07/14/xinetd安装配置/" >xinetd的安装配置，及简单服务器搭建</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/11</span><a class="archive-post-title" href= "/2019/07/11/cache/" >2、常见的缓冲区类型以及服务器开发</a>
         </li>
     
     
