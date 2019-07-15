@@ -395,7 +395,7 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <p>#makefile<br>1.命名规则  </p>
+        <h1 id="makefile"><a href="#makefile" class="headerlink" title="makefile"></a>makefile</h1><p>1.命名规则  </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">makefile</span><br><span class="line">Makefile</span><br></pre></td></tr></table></figure>
 
 <p>2.规则  </p>
@@ -416,18 +416,15 @@ height:50vh;
 <p>当前目录下有clean名文件时用声明伪目标的方法解决</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.PHONY:clean</span><br></pre></td></tr></table></figure>
 
-<p>#gdb调试<br>1.gcc a.c -o app -g     #-g生成的程序包含调试信息<br>2.gdb  app<br><code>set args   加参数（空格分开）</code><br>3.l  查看代码（可以指定文件名）  </p>
+<h1 id="gdb调试"><a href="#gdb调试" class="headerlink" title="gdb调试"></a>gdb调试</h1><p>1.gcc a.c -o app -g     #-g生成的程序包含调试信息<br>2.gdb  app<br><code>set args   加参数（空格分开）</code><br>3.l  查看代码（可以指定文件名）  </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">set listsize   20         #设置显示行数  </span><br><span class="line">当前文件：  </span><br><span class="line">l  </span><br><span class="line">l  行号 </span><br><span class="line">l  函数名  </span><br><span class="line">非当前文件：  </span><br><span class="line">l  文件名:行号</span><br><span class="line">l  文件名:函数名</span><br></pre></td></tr></table></figure>
 
 <p>4.b  断点操作<br>设置断点：  </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">b  行号</span><br><span class="line">b  函数名</span><br><span class="line">b  文件名:行号</span><br><span class="line">b  文件名:函数名</span><br></pre></td></tr></table></figure>
 
 <p>查看断点：<br><code>i  b</code><br>删除断点：  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">d  num(断点编号)</span><br><span class="line">d  num1  num2</span><br><span class="line">d  num1-num6</span><br><span class="line">```  </span><br><span class="line">设置无效:  </span><br><span class="line">`dis num(编号)`  </span><br><span class="line">设置生效:  </span><br><span class="line">`ena num`  </span><br><span class="line">条件断点:  </span><br><span class="line">`b  行号  if 变量==`  </span><br><span class="line"></span><br><span class="line">打印变量：  </span><br><span class="line">`p  变量名`</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#vim  </span><br><span class="line">1.跳man手册  </span><br><span class="line">章节号 + K  </span><br><span class="line">2.分屏  </span><br><span class="line">vsp</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">d  num(断点编号)</span><br><span class="line">d  num1  num2</span><br><span class="line">d  num1-num6</span><br><span class="line">```  </span><br><span class="line">设置无效:  </span><br><span class="line">`dis num(编号)`  </span><br><span class="line">设置生效:  </span><br><span class="line">`ena num`  </span><br><span class="line">条件断点:  </span><br><span class="line">`b  行号  if 变量==`  </span><br><span class="line"></span><br><span class="line">打印变量：  </span><br><span class="line">`p  变量名`</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># vim  </span><br><span class="line">1.跳man手册  </span><br><span class="line">章节号 + K  </span><br><span class="line">2.分屏  </span><br><span class="line">vsp</span><br></pre></td></tr></table></figure>
 
-<p>“”””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””</p>
-<p>“ 显示相关  </p>
-<p>“”””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””</p>
 <p>“set shortmess=atI   “ 启动的时候不显示那个援助乌干达儿童的提示  </p>
 <p>“winpos 5 5          “ 设定窗口位置  </p>
 <p>“set lines=40 columns=155    “ 设定窗口大小  </p>
@@ -466,8 +463,6 @@ set encoding=utf-8</code></pre><p>endif</p>
 <p>set encoding=utf-8</p>
 <p>set fileencodings=ucs-bom,utf-8,cp936</p>
 <p>set fileencoding=utf-8</p>
-<p>“””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””</p>
-<p>“””””新文件标题””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””</p>
 <p>“新建.c,.h,.sh,.java文件，自动插入文件头 </p>
 <p>autocmd BufNewFile <em>.cpp,</em>.[ch],<em>.sh,</em>.java exec “:call SetTitle()” </p>
 <p>“”定义函数SetTitle，自动插入文件头 </p>
@@ -588,9 +583,6 @@ endif</code></pre><p>endfunc</p>
 exec &quot;!g++ % -g -o %&lt;&quot;
 
 exec &quot;!gdb ./%&lt;&quot;</code></pre><p>endfunc</p>
-<p>“”””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””</p>
-<p>“”实用设置</p>
-<p>“””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””””</p>
 <p>“ 设置当文件被改动时自动载入</p>
 <p>set autoread</p>
 <p>“ quickfix模式</p>
@@ -761,8 +753,8 @@ endif</code></pre><p>endfunction</p>
         <div class="license-wrapper">
             <p>原文作者：<a href="http://peheader.github.io">pediy</a>
             <p>原文链接：<a href="http://peheader.github.io/2019/07/15/gdb.vim.makefile等使用/">http://peheader.github.io/2019/07/15/gdb.vim.makefile等使用/</a>
-            <p>发表日期：<a href="http://peheader.github.io/2019/07/15/gdb.vim.makefile等使用/">July 15th 2019, 12:35:22 am</a>
-            <p>更新日期：<a href="http://peheader.github.io/2019/07/15/gdb.vim.makefile等使用/">July 15th 2019, 12:35:22 am</a>
+            <p>发表日期：<a href="http://peheader.github.io/2019/07/15/gdb.vim.makefile等使用/">July 15th 2019, 12:39:22 am</a>
+            <p>更新日期：<a href="http://peheader.github.io/2019/07/15/gdb.vim.makefile等使用/">July 15th 2019, 12:39:22 am</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -887,7 +879,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#makefile"><span class="toc-number">1.</span> <span class="toc-text">makefile</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#gdb调试"><span class="toc-number">2.</span> <span class="toc-text">gdb调试</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -969,13 +961,31 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/15</span><a class="archive-post-title" href= "/2019/07/15/gdb.vim.makefile等使用/" >makefile、gdb、vim等使用</a>
+            <span class="archive-post-date">07/14</span><a class="archive-post-title" href= "/2019/07/14/xinetd安装配置/" >xinetd的安装配置，及简单服务器搭建</a>
         </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> Invalid date </div>
+    <ul class="year-list">
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">07/14</span><a class="archive-post-title" href= "/2019/07/14/xinetd安装配置/" >xinetd的安装配置，及简单服务器搭建</a>
+            <span class="archive-post-date">Invalid date</span><a class="archive-post-title" href= "/2019/07/15/gdb.vim.makefile等使用/" >makefile、gdb、vim等使用</a>
         </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
     
     
         <li class="archive-post-item">
